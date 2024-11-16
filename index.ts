@@ -1,23 +1,24 @@
-import { insertNotes } from "./database/database.ts";
-import { CSS, render } from "@deno/gfm";
-let markdowns = [];
-for (const dirEntry of Deno.readDirSync("./notes")) {
-    markdowns.push(dirEntry.name);
-}
-// const markdowns = for (let i=0; ) {
-console.log(markdowns);
+import { render } from "@deno/gfm";
+import handlerbars from "npm:handlebars";
 
-// markdowns.forEach((md) => {
-// });
-
+const index = Deno.readTextFileSync("./index.html");
 const cssPath = Deno.readTextFileSync("./new.css");
+const markdowns: Array<string> = [];
+
+const template = handlerbars.compile(index);
+
+for (const dirEntry of Deno.readDirSync("./notes")) {
+  markdowns.push(dirEntry.name);
+}
+
+// console.log(markdowns);
 
 Deno.serve((req: Request): Response | Promise<Response> => {
-    const url = new URL(req.url);
-    for (const md of markdowns) {
-        const markdown = Deno.readTextFileSync(`./notes/${md}`);
-        const body = render(markdown);
-        const html = `
+  const url = new URL(req.url);
+  for (const md of markdowns) {
+    const markdown = Deno.readTextFileSync(`./notes/${md}`);
+    const body = render(markdown);
+    const html = `
         <!DOCTYPE html>
         <html lang="en">
             <head>
@@ -35,14 +36,27 @@ Deno.serve((req: Request): Response | Promise<Response> => {
             </body>
         </html>
         `;
-        if (url.pathname == `/${md}`) {
-            console.log(html);
-            return new Response(html, {
-                headers: {
-                    "Content-Type": "text/html",
-                },
-            });
-        }
+    if (url.pathname == `/${md}`) {
+      console.log(html);
+      return new Response(html, {
+        headers: {
+          "Content-Type": "text/html",
+        },
+      });
     }
-    return new Response("Something going wrong dude");
+  }
+  const htmlMd = [];
+  for (const md of markdowns) {
+    htmlMd.push(`${md.slice(0, -3)}`);
+  }
+  return new Response(
+    template({
+      htmlMd,
+    }),
+    {
+      headers: {
+        "Content-Type": "text/html",
+      },
+    },
+  );
 });
