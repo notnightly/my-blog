@@ -1,3 +1,1 @@
-# retain
-
-A personal note-taking app
+# Nightly's Blog

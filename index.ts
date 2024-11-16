@@ -7,7 +7,7 @@ const markdowns: Array<string> = [];
 
 const template = handlerbars.compile(index);
 
-for (const dirEntry of Deno.readDirSync("./notes")) {
+for (const dirEntry of Deno.readDirSync("./posts")) {
   markdowns.push(dirEntry.name);
 }
 
@@ -16,7 +16,7 @@ for (const dirEntry of Deno.readDirSync("./notes")) {
 Deno.serve((req: Request): Response | Promise<Response> => {
   const url = new URL(req.url);
   for (const md of markdowns) {
-    const markdown = Deno.readTextFileSync(`./notes/${md}`);
+    const markdown = Deno.readTextFileSync(`./posts/${md}`);
     const body = render(markdown);
     const html = `
         <!DOCTYPE html>
