@@ -455,3 +455,10 @@ input {
 img {
   max-width: 100%;
 }
+
+svg {
+  color: white;
+  fill: white;
+  stroke: white;
+  padding-right: 0.5rem;
+}

@@ -1,5 +1,6 @@
-import { render } from "@deno/gfm";
+import { render, Renderer } from "@deno/gfm";
 import handlerbars from "npm:handlebars";
+import { extractYaml, test } from "jsr:@std/front-matter";
 
 const index = Deno.readTextFileSync("./index.html");
 const cssPath = Deno.readTextFileSync("./new.css");
@@ -17,7 +18,9 @@ Deno.serve((req: Request): Response | Promise<Response> => {
   const url = new URL(req.url);
   for (const md of markdowns) {
     const markdown = Deno.readTextFileSync(`./posts/${md}`);
-    const body = render(markdown);
+    const { attrs, body } = extractYaml(markdown);
+    const b = render(body);
+
     const html = `
         <!DOCTYPE html>
         <html lang="en">
@@ -31,9 +34,13 @@ Deno.serve((req: Request): Response | Promise<Response> => {
             </head>
             <body>
             <main data-color-mode="dark" data-dark-theme="dark" class="markdown-body">
-                ${body}
+                <header><h1>${attrs.title}</h1></header>
+                ${b}
             </main>
             </body>
+            <script>
+
+            </script>
         </html>
         `;
     if (url.pathname == `/${md}`) {
@@ -44,13 +51,20 @@ Deno.serve((req: Request): Response | Promise<Response> => {
       });
     }
   }
-  const htmlMd = [];
-  for (const md of markdowns) {
-    htmlMd.push(`${md.slice(0, -3)}`);
+
+  let toc = [];
+  for (const dirEntry of Deno.readDirSync("./posts")) {
+    const file = Deno.readTextFileSync(`./posts/${dirEntry.name}`);
+    const header = extractYaml(file);
+    toc.push({
+      filename: dirEntry.name,
+      ...header.attrs,
+    });
   }
+
   return new Response(
     template({
-      htmlMd,
+      htmlMd: toc,
     }),
     {
       headers: {
