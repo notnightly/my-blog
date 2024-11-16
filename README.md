@@ -1,2 +1,3 @@
 # retain
- A personal note-taking app
+
+A personal note-taking app

@@ -1,0 +1,5 @@
+{
+  "imports": {
+    "@deno/gfm": "jsr:@deno/gfm@^0.10.0"
+  }
+}
