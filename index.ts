@@ -4,6 +4,7 @@ import { extractYaml, test } from "jsr:@std/front-matter";
 
 const index = Deno.readTextFileSync("./index.html");
 const cssPath = Deno.readTextFileSync("./new.css");
+
 const markdowns: Array<string> = [];
 
 const template = handlerbars.compile(index);
@@ -16,6 +17,13 @@ for (const dirEntry of Deno.readDirSync("./posts")) {
 
 Deno.serve((req: Request): Response | Promise<Response> => {
   const url = new URL(req.url);
+  if (url.pathname == "/new.css") {
+    return new Response(cssPath, {
+      headers: {
+        "Content-Type": "text/css",
+      },
+    });
+  }
   for (const md of markdowns) {
     const markdown = Deno.readTextFileSync(`./posts/${md}`);
     const { attrs, body } = extractYaml(markdown);
@@ -65,6 +73,7 @@ Deno.serve((req: Request): Response | Promise<Response> => {
   return new Response(
     template({
       htmlMd: toc,
+      cssPath,
     }),
     {
       headers: {

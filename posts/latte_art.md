@@ -33,6 +33,10 @@ Allows you to pour your milk into the cup precisely and not spill it.
 
 Any cup that has a wide opening will do.
 
-- Imma write later
+- Milk
 
-[Me](https://nightly.deno.dev)
+### The Method
+
+wip
+
+#### [Me](https://nightly.deno.dev)

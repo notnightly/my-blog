@@ -163,6 +163,8 @@ h6 {
 
 a {
   color: var(--nc-lk-1);
+  color: blueviolet;
+  text-decoration: none;
 }
 
 a:hover {
@@ -175,7 +177,7 @@ abbr:hover {
 }
 
 blockquote {
-  padding: 1.5rem;
+  padding: 1.9rem;
   background: var(--nc-bg-2);
   border-left: 5px solid var(--nc-bg-3);
 }

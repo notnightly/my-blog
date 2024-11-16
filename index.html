@@ -4,15 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nightly's Blog</title>
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/@exampledev/new.css@1.1.2/new.min.css"
-    />
+    <link rel="stylesheet" href="/new.css" />
   </head>
   <body>
     <header><h1>Nightly's blog</h1></header>
     {{#each htmlMd}}
-    <h2><a href="{{this.filename}}">{{this.title}} @ {{this.date}}</a></h2>
+    <blockquote>
+      <h2><a href="{{this.filename}}">{{this.title}} @ {{this.date}}</a></h2>
+    </blockquote>
     {{/each}}
   </body>
 </html>
