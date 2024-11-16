@@ -1,84 +1,43 @@
-import { render, Renderer } from "@deno/gfm";
-import handlerbars from "npm:handlebars";
-import { extractYaml, test } from "jsr:@std/front-matter";
+import { contentType } from "jsr:@std/media-types/content-type";
 
-const index = Deno.readTextFileSync("./index.html");
-const cssPath = Deno.readTextFileSync("./new.css");
+const contentTypeCache = {};
+const fileCache = {};
 
-const markdowns: Array<string> = [];
+function readFile(path) {
+  if (fileCache[path]) {
+    return fileCache[path];
+  }
 
-const template = handlerbars.compile(index);
-
-for (const dirEntry of Deno.readDirSync("./posts")) {
-  markdowns.push(dirEntry.name);
+  const file = Deno.readTextFileSync(path);
+  fileCache[path] = file;
+  return file;
 }
 
-// console.log(markdowns);
+function contentTypeOrCache(extension) {
+  if (contentTypeCache[extension]) {
+    return contentTypeCache[extension];
+  }
 
-Deno.serve((req: Request): Response | Promise<Response> => {
+  const type = contentType(extension);
+  contentTypeCache[extension] = type;
+  return type;
+}
+
+Deno.serve((req: Request) => {
   const url = new URL(req.url);
-  if (url.pathname == "/new.css") {
-    return new Response(cssPath, {
-      headers: {
-        "Content-Type": "text/css",
-      },
-    });
-  }
-  for (const md of markdowns) {
-    const markdown = Deno.readTextFileSync(`./posts/${md}`);
-    const { attrs, body } = extractYaml(markdown);
-    const b = render(body);
-
-    const html = `
-        <!DOCTYPE html>
-        <html lang="en">
-            <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
-            <style>
-                ${cssPath}
-            </style>
-            </head>
-            <body>
-            <main data-color-mode="dark" data-dark-theme="dark" class="markdown-body">
-                <header><h1>${attrs.title}</h1></header>
-                ${b}
-            </main>
-            </body>
-            <script>
-
-            </script>
-        </html>
-        `;
-    if (url.pathname == `/${md}`) {
-      return new Response(html, {
-        headers: {
-          "Content-Type": "text/html",
-        },
-      });
-    }
+  let path = url.pathname;
+  if (path == "/") {
+    path = "index.html";
   }
 
-  let toc = [];
-  for (const dirEntry of Deno.readDirSync("./posts")) {
-    const file = Deno.readTextFileSync(`./posts/${dirEntry.name}`);
-    const header = extractYaml(file);
-    toc.push({
-      filename: dirEntry.name,
-      ...header.attrs,
-    });
-  }
+  const file = readFile(`./out/${path}`);
 
-  return new Response(
-    template({
-      htmlMd: toc,
-      cssPath,
-    }),
-    {
-      headers: {
-        "Content-Type": "text/html",
-      },
+  const extension = path.split(".").pop();
+  const type = contentTypeOrCache(extension);
+
+  return new Response(file, {
+    headers: {
+      "Content-Type": type,
     },
-  );
+  });
 });
