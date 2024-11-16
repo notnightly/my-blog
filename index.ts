@@ -1,9 +1,9 @@
 import { contentType } from "jsr:@std/media-types/content-type";
 
-const contentTypeCache = {};
-const fileCache = {};
+const contentTypeCache: Record<string, string> = {};
+const fileCache: Record<string, string> = {};
 
-function readFile(path) {
+function readFile(path: string) {
   if (fileCache[path]) {
     return fileCache[path];
   }
@@ -13,14 +13,14 @@ function readFile(path) {
   return file;
 }
 
-function contentTypeOrCache(extension) {
+function contentTypeOrCache(extension: string): string {
   if (contentTypeCache[extension]) {
     return contentTypeCache[extension];
   }
 
   const type = contentType(extension);
-  contentTypeCache[extension] = type;
-  return type;
+  contentTypeCache[extension] = type || "text/html";
+  return contentTypeCache[extension];
 }
 
 Deno.serve((req: Request) => {
@@ -33,7 +33,7 @@ Deno.serve((req: Request) => {
   const file = readFile(`./out/${path}`);
 
   const extension = path.split(".").pop();
-  const type = contentTypeOrCache(extension);
+  const type = contentTypeOrCache(extension!);
 
   return new Response(file, {
     headers: {

@@ -17,6 +17,7 @@ for (const dirEntry of Deno.readDirSync("./posts")) {
   const header = extractYaml(file);
   toc.push({
     filename: dirEntry.name.replace(".md", ".html"),
+    //@ts-ignore Yolo
     ...header.attrs,
   });
 }
@@ -25,7 +26,8 @@ for (const md of markdowns) {
   const markdown = Deno.readTextFileSync(`./posts/${md}`);
   const { attrs, body } = extractYaml(markdown);
   const b = render(body);
-
+  // deno-lint-ignore no-explicit-any
+  const attribute = (attrs as any).title;
   const html = `
         <!DOCTYPE html>
         <html lang="en">
@@ -39,7 +41,7 @@ for (const md of markdowns) {
             </head>
             <body>
             <main data-color-mode="dark" data-dark-theme="dark" class="markdown-body">
-                <header><h1>${attrs.title}</h1></header>
+                <header><h1>${attribute}</h1></header>
                 ${b}
             </main>
             </body>
