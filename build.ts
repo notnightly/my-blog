@@ -1,6 +1,6 @@
 import handlerbars from "npm:handlebars";
-import { render, Renderer } from "@deno/gfm";
-import { extractYaml, test } from "jsr:@std/front-matter";
+import { render } from "@deno/gfm";
+import { extractYaml } from "jsr:@std/front-matter";
 
 const index = Deno.readTextFileSync("./index.html");
 const cssPath = Deno.readTextFileSync("./new.css");
