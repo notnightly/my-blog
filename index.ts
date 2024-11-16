@@ -37,7 +37,6 @@ Deno.serve((req: Request): Response | Promise<Response> => {
         </html>
         `;
     if (url.pathname == `/${md}`) {
-      console.log(html);
       return new Response(html, {
         headers: {
           "Content-Type": "text/html",
