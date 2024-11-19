@@ -1,7 +1,7 @@
 import handlerbars from "npm:handlebars";
 import { render } from "@deno/gfm";
 import { extractYaml } from "jsr:@std/front-matter";
-
+import ogImageGenerator from "./og.ts";
 const domain = "https://nightly-blog.deno.dev";
 const index = Deno.readTextFileSync("./index.html");
 const cssPath = Deno.readTextFileSync("./new.css");
@@ -22,6 +22,7 @@ for (const dirEntry of Deno.readDirSync("./posts")) {
     ...header.attrs,
   });
 }
+export const shortAttr: Array<string> = [];
 
 for (const md of markdowns) {
   const markdown = Deno.readTextFileSync(`./posts/${md}`);
@@ -29,8 +30,9 @@ for (const md of markdowns) {
   const b = render(body);
   // deno-lint-ignore no-explicit-any
   const attribute = (attrs as any).title;
-  // make the b have first 15 words then add ... to it
-  const shortB = b.split(" ").slice(0, 15).join(" ") + "...";
+  // make the b have first 15 words then add ... to it and put in array
+  shortAttr.push(attribute.split(" ").slice(0, 15).join(" ") + "...");
+
   const html = `
         <!DOCTYPE html>
         <html lang="en">
@@ -40,8 +42,9 @@ for (const md of markdowns) {
             <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
             <meta property="og:title" content="${attribute}" />
             <meta property="og:type" content="website" />
-            <meta property="og:description" content="${shortB}" />
+            <meta property="og:description" content="${shortAttr}" />
             <meta property="og:url" content="${domain}" />
+            <meta property="og:image" content="./${shortAttr.length - 1}.png" />
             <style>
                 ${cssPath}
             </style>
@@ -66,6 +69,6 @@ const indexHtml = template({
   htmlMd: toc,
   cssPath,
 });
-
+ogImageGenerator();
 Deno.writeTextFileSync("./out/index.html", indexHtml);
 Deno.copyFileSync("./new.css", "./out/new.css");
