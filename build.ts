@@ -2,6 +2,7 @@ import handlerbars from "npm:handlebars";
 import { render } from "@deno/gfm";
 import { extractYaml } from "jsr:@std/front-matter";
 
+const domain = "https://nightly-blog.deno.dev";
 const index = Deno.readTextFileSync("./index.html");
 const cssPath = Deno.readTextFileSync("./new.css");
 
@@ -28,6 +29,8 @@ for (const md of markdowns) {
   const b = render(body);
   // deno-lint-ignore no-explicit-any
   const attribute = (attrs as any).title;
+  // make the b have first 15 words then add ... to it
+  const shortB = b.split(" ").slice(0, 15).join(" ") + "...";
   const html = `
         <!DOCTYPE html>
         <html lang="en">
@@ -35,6 +38,10 @@ for (const md of markdowns) {
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
+            <meta property="og:title" content="${attribute}" />
+            <meta property="og:type" content="website" />
+            <meta property="og:description" content="${shortB}" />
+            <meta property="og:url" content="${domain}" />
             <style>
                 ${cssPath}
             </style>
