@@ -2,7 +2,7 @@ import handlerbars from "npm:handlebars";
 import { render } from "@deno/gfm";
 import { extractYaml } from "jsr:@std/front-matter";
 import ogImageGenerator from "./og.ts";
-import { createCanvas } from "jsr:@gfx/canvas@0.5.6";
+
 const domain = "https://nightly-blog.deno.dev";
 const index = Deno.readTextFileSync("./index.html");
 const cssPath = Deno.readTextFileSync("./new.css");
@@ -31,10 +31,9 @@ for (const md of markdowns) {
   const b = render(body);
   // deno-lint-ignore no-explicit-any
   const attribute = (attrs as any).title;
-  // make the b have first 15 words then add ... to it and put in array
   shortAttr.push(attribute.split(" ").slice(0, 15).join(" ") + "...");
-  const title = attribute.split(" ").slice(0, 6).join(" ") + " | Nightly";
-  // now create const of the image path
+  const title = attribute.split(" ").slice(0, 6).join(" ") + "..." +
+    " | Nightly";
   const image = shortAttr.length - 1;
   const html = `
         <!DOCTYPE html>
@@ -68,8 +67,8 @@ for (const md of markdowns) {
   const extensionLess = md.split(".")[0];
   Deno.writeTextFileSync(`./out/${extensionLess}.html`, html);
 }
-const canvas = createCanvas(1200, 630);
-ogImageGenerator(canvas);
+
+ogImageGenerator();
 const indexHtml = template({
   htmlMd: toc,
   cssPath,

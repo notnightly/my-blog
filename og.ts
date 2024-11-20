@@ -1,18 +1,23 @@
-import { Canvas, createCanvas } from "jsr:@gfx/canvas@0.5.6";
+import { CanvasRenderingContext2D, createCanvas } from "jsr:@gfx/canvas@0.5.6";
 import { shortAttr } from "./build.ts";
-
-function getLines(ctx, phrase, maxPxLength, textStyle) {
-  let wa = phrase.split(" "),
-    phraseArray = [],
-    lastPhrase = wa[0],
-    measure = 0,
-    splitChar = " ";
+const canvas = createCanvas(1200, 630);
+function getLines(
+  ctx: CanvasRenderingContext2D,
+  phrase: string,
+  maxPxLength: number,
+  textStyle: string,
+): string[] {
+  const wa = phrase.split(" ");
+  const phraseArray = [];
+  let lastPhrase = wa[0];
+  let measure = 0;
+  const splitChar = " ";
   if (wa.length <= 1) {
     return wa;
   }
   ctx.font = textStyle;
   for (let i = 1; i < wa.length; i++) {
-    let w = wa[i];
+    const w = wa[i];
     measure = ctx.measureText(lastPhrase + splitChar + w).width;
     if (measure < maxPxLength) {
       lastPhrase += splitChar + w;
@@ -28,7 +33,7 @@ function getLines(ctx, phrase, maxPxLength, textStyle) {
   return phraseArray;
 }
 
-export default function ogImageGenerator(canvas: Canvas) {
+export default function ogImageGenerator() {
   // create a black background
   const ctx = canvas.getContext("2d");
   ctx.fillStyle = "white";
