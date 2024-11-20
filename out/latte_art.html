@@ -1,563 +1,865 @@
-
-        <!DOCTYPE html>
-        <html lang="en">
-            <head>
-            <meta charset="UTF-8">
-            <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
-            <title>How to make Latte Art at... | Nightly</title>
-            <meta property="og:title" content="How to make Latte Art at home (without an espresso machine)" />
-            <meta property="og:type" content="website" />
-            <meta property="og:description" content="First post...,How to make Latte Art at home (without an espresso machine)..." />
-            <meta property="og:url" content="https://nightly-blog.deno.dev" />
-            <meta property="og:image" content="https://nightly-blog.deno.dev/1.png" />
-            <style>
-                /* https://github.com/xz/new.css/blob/master/new.css */
-
-:root {
-  --nc-font-sans:
-    "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
-    Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif,
-    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  --nc-font-mono:
-    Consolas, monaco, "Ubuntu Mono", "Liberation Mono", "Courier New", Courier,
-    monospace;
-
-  /* Light theme */
-  --nc-tx-1: #000000;
-  --nc-tx-2: #1a1a1a;
-  --nc-bg-1: #ffffff;
-  --nc-bg-2: #f6f8fa;
-  --nc-bg-3: #e5e7eb;
-  --nc-lk-1: #0070f3;
-  --nc-lk-2: #0366d6;
-  --nc-lk-tx: #ffffff;
-  --nc-ac-1: #79ffe1;
-  --nc-ac-tx: #0c4047;
-
-  /* Dark theme */
-  --nc-d-tx-1: #ffffff;
-  --nc-d-tx-2: #eeeeee;
-  --nc-d-bg-1: #000000;
-  --nc-d-bg-2: #111111;
-  --nc-d-bg-3: #222222;
-  --nc-d-lk-1: #3291ff;
-  --nc-d-lk-2: #0070f3;
-  --nc-d-lk-tx: #ffffff;
-  --nc-d-ac-1: #7928ca;
-  --nc-d-ac-tx: #ffffff;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --nc-tx-1: var(--nc-d-tx-1);
-    --nc-tx-2: var(--nc-d-tx-2);
-    --nc-bg-1: var(--nc-d-bg-1);
-    --nc-bg-2: var(--nc-d-bg-2);
-    --nc-bg-3: var(--nc-d-bg-3);
-    --nc-lk-1: var(--nc-d-lk-1);
-    --nc-lk-2: var(--nc-d-lk-2);
-    --nc-lk-tx: var(--nc--dlk-tx);
-    --nc-ac-1: var(--nc-d-ac-1);
-    --nc-ac-tx: var(--nc--dac-tx);
-  }
-}
-
-* {
-  /* Reset margins and padding */
-  margin: 0;
-  padding: 0;
-}
-
-address,
-area,
-article,
-aside,
-audio,
-blockquote,
-datalist,
-details,
-dl,
-fieldset,
-figure,
-form,
-input,
-iframe,
-img,
-meter,
-nav,
-ol,
-optgroup,
-option,
-output,
-p,
-pre,
-progress,
-ruby,
-section,
-table,
-textarea,
-ul,
-video {
-  /* Margins for most elements */
-  margin-bottom: 1rem;
-}
-
-html, input, select, button {
-  /* Set body font family and some finicky elements */
-  font-family: var(--nc-font-sans);
-}
-
-body {
-  /* Center body in page */
-  margin: 0 auto;
-  max-width: 750px;
-  padding: 2rem;
-  border-radius: 6px;
-  overflow-x: hidden;
-  word-break: break-word;
-  overflow-wrap: break-word;
-  background: var(--nc-bg-1);
-
-  /* Main body text */
-  color: var(--nc-tx-2);
-  font-size: 1.03rem;
-  line-height: 1.5;
-}
-
-::selection {
-  /* Set background color for selected text */
-  background: var(--nc-ac-1);
-  color: var(--nc-ac-tx);
-}
-
-h1, h2, h3, h4, h5, h6 {
-  line-height: 1;
-  color: var(--nc-tx-1);
-  padding-top: 0.875rem;
-}
-
-h1,
-h2,
-h3 {
-  color: var(--nc-tx-1);
-  padding-bottom: 2px;
-  margin-bottom: 8px;
-}
-
-h4,
-h5,
-h6 {
-  margin-bottom: 0.3rem;
-}
-
-h1 {
-  font-size: 2.25rem;
-}
-
-h2 {
-  font-size: 1.85rem;
-}
-
-h3 {
-  font-size: 1.55rem;
-}
-
-h4 {
-  font-size: 1.25rem;
-}
-
-h5 {
-  font-size: 1rem;
-}
-
-h6 {
-  font-size: 0.875rem;
-}
-
-a {
-  color: var(--nc-lk-1);
-  color: blueviolet;
-  text-decoration: none;
-}
-
-a:hover {
-  color: var(--nc-lk-2);
-}
-
-abbr:hover {
-  /* Set the '?' cursor while hovering an abbreviation */
-  cursor: help;
-}
-
-blockquote {
-  padding: 1.9rem;
-  background: var(--nc-bg-2);
-  border-left: 5px solid var(--nc-bg-3);
-}
-
-abbr {
-  cursor: help;
-}
-
-blockquote *:last-child {
-  padding-bottom: 0;
-  margin-bottom: 0;
-}
-
-header {
-  background: var(--nc-bg-2);
-  border-bottom: 1px solid var(--nc-bg-3);
-  padding: 2rem 1.5rem;
-
-  /* This sets the right and left margins to cancel out the body's margins. It's width is still the same, but the background stretches across the page's width. */
-
-  margin: -2rem calc(50% - 50vw) 2rem;
-
-  /* Shorthand for:
-
-  margin-top: -2rem;
-  margin-bottom: 2rem;
-
-  margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw); */
-
-  padding-left: calc(50vw - 50%);
-  padding-right: calc(50vw - 50%);
-}
-
-header h1,
-header h2,
-header h3 {
-  padding-bottom: 0;
-  border-bottom: 0;
-}
-
-header > *:first-child {
-  margin-top: 0;
-  padding-top: 0;
-}
-
-header > *:last-child {
-  margin-bottom: 0;
-}
-
-a button,
-button,
-input[type="submit"],
-input[type="reset"],
-input[type="button"] {
-  font-size: 1rem;
-  display: inline-block;
-  padding: 6px 12px;
-  text-align: center;
-  text-decoration: none;
-  white-space: nowrap;
-  background: var(--nc-lk-1);
-  color: var(--nc-lk-tx);
-  border: 0;
-  border-radius: 4px;
-  box-sizing: border-box;
-  cursor: pointer;
-  color: var(--nc-lk-tx);
-}
-
-a button[disabled],
-button[disabled],
-input[type="submit"][disabled],
-input[type="reset"][disabled],
-input[type="button"][disabled] {
-  cursor: default;
-  opacity: 0.5;
-
-  /* Set the [X] cursor while hovering a disabled link */
-  cursor: not-allowed;
-}
-
-.button:focus,
-.button:enabled:hover,
-button:focus,
-button:enabled:hover,
-input[type="submit"]:focus,
-input[type="submit"]:enabled:hover,
-input[type="reset"]:focus,
-input[type="reset"]:enabled:hover,
-input[type="button"]:focus,
-input[type="button"]:enabled:hover {
-  background: var(--nc-lk-2);
-}
-
-a img {
-  margin-bottom: 0px;
-}
-
-code,
-pre,
-kbd,
-samp {
-  /* Set the font family for monospaced elements */
-  font-family: var(--nc-font-mono);
-}
-
-code,
-samp,
-kbd,
-pre {
-  /* The main preformatted style. This is changed slightly across different cases. */
-  background: var(--nc-bg-2);
-  border: 1px solid var(--nc-bg-3);
-  border-radius: 4px;
-  padding: 3px 6px;
-  /* ↓ font-size is relative to containing element, so it scales for titles*/
-  font-size: 0.9em;
-}
-
-kbd {
-  /* Makes the kbd element look like a keyboard key */
-  border-bottom: 3px solid var(--nc-bg-3);
-}
-
-pre {
-  padding: 1rem 1.4rem;
-  max-width: 100%;
-  overflow: auto;
-}
-
-pre code {
-  /* When <code> is in a <pre>, reset it's formatting to blend in */
-  background: inherit;
-  font-size: inherit;
-  color: inherit;
-  border: 0;
-  padding: 0;
-  margin: 0;
-}
-
-code pre {
-  /* When <pre> is in a <code>, reset it's formatting to blend in */
-  display: inline;
-  background: inherit;
-  font-size: inherit;
-  color: inherit;
-  border: 0;
-  padding: 0;
-  margin: 0;
-}
-
-details {
-  /* Make the <details> look more "clickable" */
-  padding: 0.6rem 1rem;
-  background: var(--nc-bg-2);
-  border: 1px solid var(--nc-bg-3);
-  border-radius: 4px;
-}
-
-summary {
-  /* Makes the <summary> look more like a "clickable" link with the pointer cursor */
-  cursor: pointer;
-  font-weight: bold;
-}
-
-details[open] {
-  /* Adjust the <details> padding while open */
-  padding-bottom: 0.75rem;
-}
-
-details[open] summary {
-  /* Adjust the <details> padding while open */
-  margin-bottom: 6px;
-}
-
-details[open] > *:last-child {
-  /* Resets the bottom margin of the last element in the <details> while <details> is opened. This prevents double margins/paddings. */
-  margin-bottom: 0;
-}
-
-dt {
-  font-weight: bold;
-}
-
-dd::before {
-  /* Add an arrow to data table definitions */
-  content: "→ ";
-}
-
-hr {
-  /* Reset the border of the <hr> separator, then set a better line */
-  border: 0;
-  border-bottom: 1px solid var(--nc-bg-3);
-  margin: 1rem auto;
-}
-
-fieldset {
-  margin-top: 1rem;
-  padding: 2rem;
-  border: 1px solid var(--nc-bg-3);
-  border-radius: 4px;
-}
-
-legend {
-  padding: auto 0.5rem;
-}
-
-table {
-  /* border-collapse sets the table's elements to share borders, rather than floating as separate "boxes". */
-  border-collapse: collapse;
-  width: 100%;
-}
-
-td,
-th {
-  border: 1px solid var(--nc-bg-3);
-  text-align: left;
-  padding: 0.5rem;
-}
-
-th {
-  background: var(--nc-bg-2);
-}
-
-tr:nth-child(even) {
-  /* Set every other cell slightly darker. Improves readability. */
-  background: var(--nc-bg-2);
-}
-
-table caption {
-  font-weight: bold;
-  margin-bottom: 0.5rem;
-}
-
-textarea {
-  /* Don't let the <textarea> extend off the screen naturally or when dragged by the user */
-  max-width: 100%;
-}
-
-ol,
-ul {
-  /* Replace the browser default padding */
-  padding-left: 2rem;
-}
-
-li {
-  margin-top: 0.4rem;
-}
-
-ul ul,
-ol ul,
-ul ol,
-ol ol {
-  margin-bottom: 0;
-}
-
-mark {
-  padding: 3px 6px;
-  background: var(--nc-ac-1);
-  color: var(--nc-ac-tx);
-}
-
-textarea,
-select,
-input {
-  padding: 6px 12px;
-  margin-bottom: 0.5rem;
-  background: var(--nc-bg-2);
-  color: var(--nc-tx-2);
-  border: 1px solid var(--nc-bg-3);
-  border-radius: 4px;
-  box-shadow: none;
-  box-sizing: border-box;
-}
-
-img {
-  max-width: 100%;
-}
-
-svg {
-  color: white;
-  fill: white;
-  stroke: white;
-  padding-right: 0.5rem;
-}
-
-            </style>
-            </head>
-            <body>
-            <main data-color-mode="dark" data-dark-theme="dark" class="markdown-body">
-                <header><h1>How to make Latte Art at home (without an espresso machine)</h1></header>
-                <h2 id="what-is-latte-art"><a class="anchor" aria-hidden="true" tabindex="-1" href="#what-is-latte-art"><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>What is Latte Art?</h2>
-<ul>
-<li>Latte art is created by making microfoam, which is a fine, velvety foam on top
-of steamed milk. This microfoam is then poured into espresso in such a way
-that it forms a pattern or design on the surface of the drink.</li>
-<li>Usually the microfoam is made by using a steamer but since we do not have an
-espresso machine, we will be using a hand frother.</li>
-<li>The most common designs are the heart, the rosetta, and the tulip. I still
-cannot make any of these designs lol.</li>
-</ul>
-<h2 id="materials"><a class="anchor" aria-hidden="true" tabindex="-1" href="#materials"><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Materials</h2>
-<p>To make latte art first you need to have the following materials</p>
-<h4 id="a-hand-frother"><a class="anchor" aria-hidden="true" tabindex="-1" href="#a-hand-frother"><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>A hand frother</h4>
-<img src="https://www.ikea.com/in/en/images/products/produkt-milk-frother-black__0713449_pe729532_s5.jpg?f=xl" width="200px" height="200px" />
-
-<p>These things cost like 200 rupees on Amazon. <a href="https://amzn.in/d/9JXKKDs" rel="noopener noreferrer">This</a>
-is the one I have (I would recommmend getting a rechargable frother)</p>
-<h4 id="a-milk-pitcher-very-important"><a class="anchor" aria-hidden="true" tabindex="-1" href="#a-milk-pitcher-very-important"><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>A milk pitcher (very important)</h4>
-<img src="https://m.media-amazon.com/images/I/41YTgIvS08L.jpg" width="200px" height="200px" />
-
-<p>Allows you to pour your milk into the cup precisely and not spill it.</p>
-<h4 id="a-cup"><a class="anchor" aria-hidden="true" tabindex="-1" href="#a-cup"><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>A cup</h4>
-<p>Any cup that has a wide opening will do. Do not use a cup that is too small.</p>
-<h4 id="milk"><a class="anchor" aria-hidden="true" tabindex="-1" href="#milk"><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Milk</h4>
-<p>I use Amul Gold milk. You can use any milk you like. Whole milk is the best to
-use for latte art since it creates a smoother, more luscious foam.</p>
-<h4 id="espresso"><a class="anchor" aria-hidden="true" tabindex="-1" href="#espresso"><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Espresso</h4>
-<p>I use Nescafe Classic. You can use pull an espresso shot if you have an espresso
-machine.</p>
-<h4 id="a-microwave-safe-cup-optional"><a class="anchor" aria-hidden="true" tabindex="-1" href="#a-microwave-safe-cup-optional"><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>A microwave safe cup (optional)</h4>
-<p>If you want to heat the milk in the microwave, you will need a microwave safe
-cup.</p>
-<h4 id="a-thermometer-optional"><a class="anchor" aria-hidden="true" tabindex="-1" href="#a-thermometer-optional"><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>A thermometer (optional)</h4>
-<p>If you want to check the temperature of the milk, you will need a thermometer.</p>
-<h2 id="the-method"><a class="anchor" aria-hidden="true" tabindex="-1" href="#the-method"><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>The Method</h2>
-<ul>
-<li>First, you need to <strong>froth</strong> the milk. To do this, first heat the milk in the
-microwave for 1 min 30 seconds at 600W (approx) so that it is warm (around
-50 - 70 degrees celsius). You may use a thermometer to check the temperature
-or you can touch the milk and if it is warm, it is ready. Make sure it is not
-too hot. You may use a microwave safe cup for this.</li>
-<li>Secondly, transfer the milk to the milk pitcher and touch the pitcher to check
-if it is too hot to touch (if it is, wait for a few seconds).</li>
-<li>Insert the frother into the milk and turn it on. The technique is to keep the
-frother up the milk so that it introduces air into the milk. This is what
-creates the microfoam. Then incorporate the foam into the milk by putting the
-frotter at the bottom of the pitcher and creating a whirlpool. This will make
-the foam and the milk mix together and create a velvety texture.</li>
-<li>Once you have frothed the milk, pour it into the cup with the espresso. To do
-a simple heart,
-<a href="https://clivecoffee.com/blogs/learn/latte-art-how-to-pour-a-heart" rel="noopener noreferrer">pour the milk into the cup from a height of 1-2 inches and
-then move the pitcher in a circular motion.</a>
-This post has a good guide on how to pour a heart.</li>
-<li>Enjoy your latte!</li>
-</ul>
-<h2 id="conclusion"><a class="anchor" aria-hidden="true" tabindex="-1" href="#conclusion"><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Conclusion</h2>
-<p>Do not expect to make perfect latte art on your first try. I still cannot make a
-perfect heart and it takes a lot of practice to get it right. Next time you
-drink a latte, try to make a design on it. It is a fun process and it is very
-satisfying to see a design on your drink.</p>
-<h2 id="links-and-resources"><a class="anchor" aria-hidden="true" tabindex="-1" href="#links-and-resources"><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Links and Resources</h2>
-<ul>
-<li><a href="https://www.youtube.com/watch?v=Ds-alL72KGM" rel="noopener noreferrer">How to make Latte Art with IKEA Frother and Instant Coffee</a></li>
-<li><a href="https://www.youtube.com/watch?v=g8FE714A7w4&amp;t=374s" rel="noopener noreferrer">Top 5 Latte Art Mistakes and How to Fix Them</a></li>
-</ul>
-<h2 id="comments-that-were-helpful"><a class="anchor" aria-hidden="true" tabindex="-1" href="#comments-that-were-helpful"><svg class="octicon octicon-link" viewBox="0 0 16 16" width="16" height="16" aria-hidden="true"><path fill-rule="evenodd" d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"></path></svg></a>Comments that were helpful</h2>
-<pre><code>1. First thing first your frother has a bent wand and not doing the work properly, good thing is you can straighten it, 
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
+    <title>How to make Latte Art at... | Nightly</title>
+    <meta
+      property="og:title"
+      content="How to make Latte Art at home (without an espresso machine)"
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:description"
+      content="First post...,How to make Latte Art at home (without an espresso machine)..."
+    />
+    <meta property="og:url" content="https://nightly.deno.dev" />
+    <meta property="og:image" content="https://nightly.deno.dev/1.png" />
+    <style>
+      /* https://github.com/xz/new.css/blob/master/new.css */
+
+      :root {
+        --nc-font-sans:
+          "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+          Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif,
+          "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+        --nc-font-mono:
+          Consolas, monaco, "Ubuntu Mono", "Liberation Mono", "Courier New",
+          Courier, monospace;
+
+        /* Light theme */
+        --nc-tx-1: #000000;
+        --nc-tx-2: #1a1a1a;
+        --nc-bg-1: #ffffff;
+        --nc-bg-2: #f6f8fa;
+        --nc-bg-3: #e5e7eb;
+        --nc-lk-1: #0070f3;
+        --nc-lk-2: #0366d6;
+        --nc-lk-tx: #ffffff;
+        --nc-ac-1: #79ffe1;
+        --nc-ac-tx: #0c4047;
+
+        /* Dark theme */
+        --nc-d-tx-1: #ffffff;
+        --nc-d-tx-2: #eeeeee;
+        --nc-d-bg-1: #000000;
+        --nc-d-bg-2: #111111;
+        --nc-d-bg-3: #222222;
+        --nc-d-lk-1: #3291ff;
+        --nc-d-lk-2: #0070f3;
+        --nc-d-lk-tx: #ffffff;
+        --nc-d-ac-1: #7928ca;
+        --nc-d-ac-tx: #ffffff;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --nc-tx-1: var(--nc-d-tx-1);
+          --nc-tx-2: var(--nc-d-tx-2);
+          --nc-bg-1: var(--nc-d-bg-1);
+          --nc-bg-2: var(--nc-d-bg-2);
+          --nc-bg-3: var(--nc-d-bg-3);
+          --nc-lk-1: var(--nc-d-lk-1);
+          --nc-lk-2: var(--nc-d-lk-2);
+          --nc-lk-tx: var(--nc--dlk-tx);
+          --nc-ac-1: var(--nc-d-ac-1);
+          --nc-ac-tx: var(--nc--dac-tx);
+        }
+      }
+
+      * {
+        /* Reset margins and padding */
+        margin: 0;
+        padding: 0;
+      }
+
+      address,
+      area,
+      article,
+      aside,
+      audio,
+      blockquote,
+      datalist,
+      details,
+      dl,
+      fieldset,
+      figure,
+      form,
+      input,
+      iframe,
+      img,
+      meter,
+      nav,
+      ol,
+      optgroup,
+      option,
+      output,
+      p,
+      pre,
+      progress,
+      ruby,
+      section,
+      table,
+      textarea,
+      ul,
+      video {
+        /* Margins for most elements */
+        margin-bottom: 1rem;
+      }
+
+      html, input, select, button {
+        /* Set body font family and some finicky elements */
+        font-family: var(--nc-font-sans);
+      }
+
+      body {
+        /* Center body in page */
+        margin: 0 auto;
+        max-width: 750px;
+        padding: 2rem;
+        border-radius: 6px;
+        overflow-x: hidden;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        background: var(--nc-bg-1);
+
+        /* Main body text */
+        color: var(--nc-tx-2);
+        font-size: 1.03rem;
+        line-height: 1.5;
+      }
+
+      ::selection {
+        /* Set background color for selected text */
+        background: var(--nc-ac-1);
+        color: var(--nc-ac-tx);
+      }
+
+      h1, h2, h3, h4, h5, h6 {
+        line-height: 1;
+        color: var(--nc-tx-1);
+        padding-top: 0.875rem;
+      }
+
+      h1,
+      h2,
+      h3 {
+        color: var(--nc-tx-1);
+        padding-bottom: 2px;
+        margin-bottom: 8px;
+      }
+
+      h4,
+      h5,
+      h6 {
+        margin-bottom: 0.3rem;
+      }
+
+      h1 {
+        font-size: 2.25rem;
+      }
+
+      h2 {
+        font-size: 1.85rem;
+      }
+
+      h3 {
+        font-size: 1.55rem;
+      }
+
+      h4 {
+        font-size: 1.25rem;
+      }
+
+      h5 {
+        font-size: 1rem;
+      }
+
+      h6 {
+        font-size: 0.875rem;
+      }
+
+      a {
+        color: var(--nc-lk-1);
+        color: blueviolet;
+        text-decoration: none;
+      }
+
+      a:hover {
+        color: var(--nc-lk-2);
+      }
+
+      abbr:hover {
+        /* Set the '?' cursor while hovering an abbreviation */
+        cursor: help;
+      }
+
+      blockquote {
+        padding: 1.9rem;
+        background: var(--nc-bg-2);
+        border-left: 5px solid var(--nc-bg-3);
+      }
+
+      abbr {
+        cursor: help;
+      }
+
+      blockquote *:last-child {
+        padding-bottom: 0;
+        margin-bottom: 0;
+      }
+
+      header {
+        background: var(--nc-bg-2);
+        border-bottom: 1px solid var(--nc-bg-3);
+        padding: 2rem 1.5rem;
+
+        /* This sets the right and left margins to cancel out the body's margins. It's width is still the same, but the background stretches across the page's width. */
+
+        margin: -2rem calc(50% - 50vw) 2rem;
+
+        /* Shorthand for:
+
+        margin-top: -2rem;
+        margin-bottom: 2rem;
+
+        margin-left: calc(50% - 50vw);
+        margin-right: calc(50% - 50vw); */
+
+        padding-left: calc(50vw - 50%);
+        padding-right: calc(50vw - 50%);
+      }
+
+      header h1,
+      header h2,
+      header h3 {
+        padding-bottom: 0;
+        border-bottom: 0;
+      }
+
+      header > *:first-child {
+        margin-top: 0;
+        padding-top: 0;
+      }
+
+      header > *:last-child {
+        margin-bottom: 0;
+      }
+
+      a button,
+      button,
+      input[type="submit"],
+      input[type="reset"],
+      input[type="button"] {
+        font-size: 1rem;
+        display: inline-block;
+        padding: 6px 12px;
+        text-align: center;
+        text-decoration: none;
+        white-space: nowrap;
+        background: var(--nc-lk-1);
+        color: var(--nc-lk-tx);
+        border: 0;
+        border-radius: 4px;
+        box-sizing: border-box;
+        cursor: pointer;
+        color: var(--nc-lk-tx);
+      }
+
+      a button[disabled],
+      button[disabled],
+      input[type="submit"][disabled],
+      input[type="reset"][disabled],
+      input[type="button"][disabled] {
+        cursor: default;
+        opacity: 0.5;
+
+        /* Set the [X] cursor while hovering a disabled link */
+        cursor: not-allowed;
+      }
+
+      .button:focus,
+      .button:enabled:hover,
+      button:focus,
+      button:enabled:hover,
+      input[type="submit"]:focus,
+      input[type="submit"]:enabled:hover,
+      input[type="reset"]:focus,
+      input[type="reset"]:enabled:hover,
+      input[type="button"]:focus,
+      input[type="button"]:enabled:hover {
+        background: var(--nc-lk-2);
+      }
+
+      a img {
+        margin-bottom: 0px;
+      }
+
+      code,
+      pre,
+      kbd,
+      samp {
+        /* Set the font family for monospaced elements */
+        font-family: var(--nc-font-mono);
+      }
+
+      code,
+      samp,
+      kbd,
+      pre {
+        /* The main preformatted style. This is changed slightly across different cases. */
+        background: var(--nc-bg-2);
+        border: 1px solid var(--nc-bg-3);
+        border-radius: 4px;
+        padding: 3px 6px;
+        /* ↓ font-size is relative to containing element, so it scales for titles*/
+        font-size: 0.9em;
+      }
+
+      kbd {
+        /* Makes the kbd element look like a keyboard key */
+        border-bottom: 3px solid var(--nc-bg-3);
+      }
+
+      pre {
+        padding: 1rem 1.4rem;
+        max-width: 100%;
+        overflow: auto;
+      }
+
+      pre code {
+        /* When <code> is in a <pre>, reset it's formatting to blend in */
+        background: inherit;
+        font-size: inherit;
+        color: inherit;
+        border: 0;
+        padding: 0;
+        margin: 0;
+      }
+
+      code pre {
+        /* When <pre> is in a <code>, reset it's formatting to blend in */
+        display: inline;
+        background: inherit;
+        font-size: inherit;
+        color: inherit;
+        border: 0;
+        padding: 0;
+        margin: 0;
+      }
+
+      details {
+        /* Make the <details> look more "clickable" */
+        padding: 0.6rem 1rem;
+        background: var(--nc-bg-2);
+        border: 1px solid var(--nc-bg-3);
+        border-radius: 4px;
+      }
+
+      summary {
+        /* Makes the <summary> look more like a "clickable" link with the pointer cursor */
+        cursor: pointer;
+        font-weight: bold;
+      }
+
+      details[open] {
+        /* Adjust the <details> padding while open */
+        padding-bottom: 0.75rem;
+      }
+
+      details[open] summary {
+        /* Adjust the <details> padding while open */
+        margin-bottom: 6px;
+      }
+
+      details[open] > *:last-child {
+        /* Resets the bottom margin of the last element in the <details> while <details> is opened. This prevents double margins/paddings. */
+        margin-bottom: 0;
+      }
+
+      dt {
+        font-weight: bold;
+      }
+
+      dd::before {
+        /* Add an arrow to data table definitions */
+        content: "→ ";
+      }
+
+      hr {
+        /* Reset the border of the <hr> separator, then set a better line */
+        border: 0;
+        border-bottom: 1px solid var(--nc-bg-3);
+        margin: 1rem auto;
+      }
+
+      fieldset {
+        margin-top: 1rem;
+        padding: 2rem;
+        border: 1px solid var(--nc-bg-3);
+        border-radius: 4px;
+      }
+
+      legend {
+        padding: auto 0.5rem;
+      }
+
+      table {
+        /* border-collapse sets the table's elements to share borders, rather than floating as separate "boxes". */
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td,
+      th {
+        border: 1px solid var(--nc-bg-3);
+        text-align: left;
+        padding: 0.5rem;
+      }
+
+      th {
+        background: var(--nc-bg-2);
+      }
+
+      tr:nth-child(even) {
+        /* Set every other cell slightly darker. Improves readability. */
+        background: var(--nc-bg-2);
+      }
+
+      table caption {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+
+      textarea {
+        /* Don't let the <textarea> extend off the screen naturally or when dragged by the user */
+        max-width: 100%;
+      }
+
+      ol,
+      ul {
+        /* Replace the browser default padding */
+        padding-left: 2rem;
+      }
+
+      li {
+        margin-top: 0.4rem;
+      }
+
+      ul ul,
+      ol ul,
+      ul ol,
+      ol ol {
+        margin-bottom: 0;
+      }
+
+      mark {
+        padding: 3px 6px;
+        background: var(--nc-ac-1);
+        color: var(--nc-ac-tx);
+      }
+
+      textarea,
+      select,
+      input {
+        padding: 6px 12px;
+        margin-bottom: 0.5rem;
+        background: var(--nc-bg-2);
+        color: var(--nc-tx-2);
+        border: 1px solid var(--nc-bg-3);
+        border-radius: 4px;
+        box-shadow: none;
+        box-sizing: border-box;
+      }
+
+      img {
+        max-width: 100%;
+      }
+
+      svg {
+        color: white;
+        fill: white;
+        stroke: white;
+        padding-right: 0.5rem;
+      }
+    </style>
+  </head>
+  <body>
+    <main data-color-mode="dark" data-dark-theme="dark" class="markdown-body">
+      <header>
+        <h1>How to make Latte Art at home (without an espresso machine)</h1>
+      </header>
+      <h2 id="what-is-latte-art">
+        <a
+          class="anchor"
+          aria-hidden="true"
+          tabindex="-1"
+          href="#what-is-latte-art"
+        ><svg
+            class="octicon octicon-link"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+            >
+            </path>
+          </svg></a>What is Latte Art?
+      </h2>
+      <ul>
+        <li>
+          Latte art is created by making microfoam, which is a fine, velvety
+          foam on top of steamed milk. This microfoam is then poured into
+          espresso in such a way that it forms a pattern or design on the
+          surface of the drink.
+        </li>
+        <li>
+          Usually the microfoam is made by using a steamer but since we do not
+          have an espresso machine, we will be using a hand frother.
+        </li>
+        <li>
+          The most common designs are the heart, the rosetta, and the tulip. I
+          still cannot make any of these designs lol.
+        </li>
+      </ul>
+      <h2 id="materials">
+        <a
+          class="anchor"
+          aria-hidden="true"
+          tabindex="-1"
+          href="#materials"
+        ><svg
+            class="octicon octicon-link"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+            >
+            </path>
+          </svg></a>Materials
+      </h2>
+      <p>To make latte art first you need to have the following materials</p>
+      <h4 id="a-hand-frother">
+        <a
+          class="anchor"
+          aria-hidden="true"
+          tabindex="-1"
+          href="#a-hand-frother"
+        ><svg
+            class="octicon octicon-link"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+            >
+            </path>
+          </svg></a>A hand frother
+      </h4>
+      <img
+        src="https://www.ikea.com/in/en/images/products/produkt-milk-frother-black__0713449_pe729532_s5.jpg?f=xl"
+        width="200px"
+        height="200px"
+      />
+
+      <p>
+        These things cost like 200 rupees on Amazon. <a
+          href="https://amzn.in/d/9JXKKDs"
+          rel="noopener noreferrer"
+        >This</a>
+        is the one I have (I would recommmend getting a rechargable frother)
+      </p>
+      <h4 id="a-milk-pitcher-very-important">
+        <a
+          class="anchor"
+          aria-hidden="true"
+          tabindex="-1"
+          href="#a-milk-pitcher-very-important"
+        ><svg
+            class="octicon octicon-link"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+            >
+            </path>
+          </svg></a>A milk pitcher (very important)
+      </h4>
+      <img
+        src="https://m.media-amazon.com/images/I/41YTgIvS08L.jpg"
+        width="200px"
+        height="200px"
+      />
+
+      <p>
+        Allows you to pour your milk into the cup precisely and not spill it.
+      </p>
+      <h4 id="a-cup">
+        <a class="anchor" aria-hidden="true" tabindex="-1" href="#a-cup"><svg
+            class="octicon octicon-link"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+            >
+            </path>
+          </svg></a>A cup
+      </h4>
+      <p>
+        Any cup that has a wide opening will do. Do not use a cup that is too
+        small.
+      </p>
+      <h4 id="milk">
+        <a class="anchor" aria-hidden="true" tabindex="-1" href="#milk"><svg
+            class="octicon octicon-link"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+            >
+            </path>
+          </svg></a>Milk
+      </h4>
+      <p>
+        I use Amul Gold milk. You can use any milk you like. Whole milk is the
+        best to use for latte art since it creates a smoother, more luscious
+        foam.
+      </p>
+      <h4 id="espresso">
+        <a class="anchor" aria-hidden="true" tabindex="-1" href="#espresso"><svg
+            class="octicon octicon-link"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+            >
+            </path>
+          </svg></a>Espresso
+      </h4>
+      <p>
+        I use Nescafe Classic. You can use pull an espresso shot if you have an
+        espresso machine.
+      </p>
+      <h4 id="a-microwave-safe-cup-optional">
+        <a
+          class="anchor"
+          aria-hidden="true"
+          tabindex="-1"
+          href="#a-microwave-safe-cup-optional"
+        ><svg
+            class="octicon octicon-link"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+            >
+            </path>
+          </svg></a>A microwave safe cup (optional)
+      </h4>
+      <p>
+        If you want to heat the milk in the microwave, you will need a microwave
+        safe cup.
+      </p>
+      <h4 id="a-thermometer-optional">
+        <a
+          class="anchor"
+          aria-hidden="true"
+          tabindex="-1"
+          href="#a-thermometer-optional"
+        ><svg
+            class="octicon octicon-link"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+            >
+            </path>
+          </svg></a>A thermometer (optional)
+      </h4>
+      <p>
+        If you want to check the temperature of the milk, you will need a
+        thermometer.
+      </p>
+      <h2 id="the-method">
+        <a
+          class="anchor"
+          aria-hidden="true"
+          tabindex="-1"
+          href="#the-method"
+        ><svg
+            class="octicon octicon-link"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+            >
+            </path>
+          </svg></a>The Method
+      </h2>
+      <ul>
+        <li>
+          First, you need to <strong>froth</strong> the milk. To do this, first
+          heat the milk in the microwave for 1 min 30 seconds at 600W (approx)
+          so that it is warm (around 50 - 70 degrees celsius). You may use a
+          thermometer to check the temperature or you can touch the milk and if
+          it is warm, it is ready. Make sure it is not too hot. You may use a
+          microwave safe cup for this.
+        </li>
+        <li>
+          Secondly, transfer the milk to the milk pitcher and touch the pitcher
+          to check if it is too hot to touch (if it is, wait for a few seconds).
+        </li>
+        <li>
+          Insert the frother into the milk and turn it on. The technique is to
+          keep the frother up the milk so that it introduces air into the milk.
+          This is what creates the microfoam. Then incorporate the foam into the
+          milk by putting the frotter at the bottom of the pitcher and creating
+          a whirlpool. This will make the foam and the milk mix together and
+          create a velvety texture.
+        </li>
+        <li>
+          Once you have frothed the milk, pour it into the cup with the
+          espresso. To do a simple heart,
+          <a
+            href="https://clivecoffee.com/blogs/learn/latte-art-how-to-pour-a-heart"
+            rel="noopener noreferrer"
+          >pour the milk into the cup from a height of 1-2 inches and then move
+            the pitcher in a circular motion.</a>
+          This post has a good guide on how to pour a heart.
+        </li>
+        <li>Enjoy your latte!</li>
+      </ul>
+      <h2 id="conclusion">
+        <a
+          class="anchor"
+          aria-hidden="true"
+          tabindex="-1"
+          href="#conclusion"
+        ><svg
+            class="octicon octicon-link"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+            >
+            </path>
+          </svg></a>Conclusion
+      </h2>
+      <p>
+        Do not expect to make perfect latte art on your first try. I still
+        cannot make a perfect heart and it takes a lot of practice to get it
+        right. Next time you drink a latte, try to make a design on it. It is a
+        fun process and it is very satisfying to see a design on your drink.
+      </p>
+      <h2 id="links-and-resources">
+        <a
+          class="anchor"
+          aria-hidden="true"
+          tabindex="-1"
+          href="#links-and-resources"
+        ><svg
+            class="octicon octicon-link"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+            >
+            </path>
+          </svg></a>Links and Resources
+      </h2>
+      <ul>
+        <li>
+          <a
+            href="https://www.youtube.com/watch?v=Ds-alL72KGM"
+            rel="noopener noreferrer"
+          >How to make Latte Art with IKEA Frother and Instant Coffee</a>
+        </li>
+        <li>
+          <a
+            href="https://www.youtube.com/watch?v=g8FE714A7w4&amp;t=374s"
+            rel="noopener noreferrer"
+          >Top 5 Latte Art Mistakes and How to Fix Them</a>
+        </li>
+      </ul>
+      <h2 id="comments-that-were-helpful">
+        <a
+          class="anchor"
+          aria-hidden="true"
+          tabindex="-1"
+          href="#comments-that-were-helpful"
+        ><svg
+            class="octicon octicon-link"
+            viewBox="0 0 16 16"
+            width="16"
+            height="16"
+            aria-hidden="true"
+          >
+            <path
+              fill-rule="evenodd"
+              d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"
+            >
+            </path>
+          </svg></a>Comments that were helpful
+      </h2>
+      <pre
+      >
+<code>1. First thing first your frother has a bent wand and not doing the work properly, good thing is you can straighten it, 
 2. 60 seconds is too much, once you figure out the position after big bubbles disappear you keep same position 20 more seconds and done
 3. you let the milk sit while doing the coffee, the coffee should be done first then pour the milk because the froth and the milk are going to separate ( not like steam milk which is more silky )
-4. the most important thing, your milk was more milk than air hence the weak froth, you add air about 4-5 seconds.</code></pre><pre><code>just on a stove on medium heat if u dont wanna use a microwave nothing crazy</code></pre>
-            </main>
-            </body>
-            <script>
-
-            </script>
-        </html>
-        
+4. the most important thing, your milk was more milk than air hence the weak froth, you add air about 4-5 seconds.</code></pre
+      >
+      <pre
+      ><code>just on a stove on medium heat if u dont wanna use a microwave nothing crazy</code></pre
+      >
+    </main>
+  </body>
+  <script>
+  </script>
+</html>
