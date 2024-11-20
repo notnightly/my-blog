@@ -2,6 +2,7 @@ import handlerbars from "npm:handlebars";
 import { render } from "@deno/gfm";
 import { extractYaml } from "jsr:@std/front-matter";
 import ogImageGenerator from "./og.ts";
+import { createCanvas } from "jsr:@gfx/canvas@0.5.6";
 const domain = "https://nightly-blog.deno.dev";
 const index = Deno.readTextFileSync("./index.html");
 const cssPath = Deno.readTextFileSync("./new.css");
@@ -32,7 +33,9 @@ for (const md of markdowns) {
   const attribute = (attrs as any).title;
   // make the b have first 15 words then add ... to it and put in array
   shortAttr.push(attribute.split(" ").slice(0, 15).join(" ") + "...");
-
+  const title = attribute.split(" ").slice(0, 6).join(" ") + " | Nightly";
+  // now create const of the image path
+  const image = shortAttr.length - 1;
   const html = `
         <!DOCTYPE html>
         <html lang="en">
@@ -40,11 +43,12 @@ for (const md of markdowns) {
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
             <link rel="stylesheet" href="https://fonts.xz.style/serve/inter.css">
+            <title>${title}</title>
             <meta property="og:title" content="${attribute}" />
             <meta property="og:type" content="website" />
             <meta property="og:description" content="${shortAttr}" />
             <meta property="og:url" content="${domain}" />
-            <meta property="og:image" content="./${shortAttr.length - 1}.png" />
+            <meta property="og:image" content="./${image}.png" />
             <style>
                 ${cssPath}
             </style>
@@ -64,11 +68,12 @@ for (const md of markdowns) {
   const extensionLess = md.split(".")[0];
   Deno.writeTextFileSync(`./out/${extensionLess}.html`, html);
 }
-
+const canvas = createCanvas(1200, 630);
+ogImageGenerator(canvas);
 const indexHtml = template({
   htmlMd: toc,
   cssPath,
 });
-ogImageGenerator();
+
 Deno.writeTextFileSync("./out/index.html", indexHtml);
 Deno.copyFileSync("./new.css", "./out/new.css");

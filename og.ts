@@ -1,9 +1,7 @@
-import { createCanvas } from "jsr:@gfx/canvas@0.5.6";
+import { Canvas, createCanvas } from "jsr:@gfx/canvas@0.5.6";
 import { shortAttr } from "./build.ts";
-//recommneded size for Og image
-const canvas = createCanvas(1200, 630);
-const ctx = canvas.getContext("2d");
-function getLines(phrase, maxPxLength, textStyle) {
+
+function getLines(ctx, phrase, maxPxLength, textStyle) {
   let wa = phrase.split(" "),
     phraseArray = [],
     lastPhrase = wa[0],
@@ -29,13 +27,16 @@ function getLines(phrase, maxPxLength, textStyle) {
   }
   return phraseArray;
 }
-export default function ogImageGenerator() {
+
+export default function ogImageGenerator(canvas: Canvas) {
   // create a black background
+  const ctx = canvas.getContext("2d");
   ctx.fillStyle = "white";
   // put text on the canvas it can be how many words
   ctx.font = "bold 100px sans-serif";
   for (const [index, value] of shortAttr.entries()) {
-    const lines = getLines(value, 1200, "bold 70px sans-serif");
+    const lines = getLines(ctx, value, 1200, "bold 70px sans-serif");
+
     ctx.fillStyle = "#EEEEEE";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     for (let i = 0; i < lines.length; i++) {
@@ -48,5 +49,6 @@ export default function ogImageGenerator() {
     ctx.fillText("by Nightly", 50, 500);
 
     canvas.save(`./out/${index}.png`);
+    console.log(`Image Generated: ${index}.png`);
   }
 }
