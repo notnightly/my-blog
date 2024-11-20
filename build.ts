@@ -48,7 +48,7 @@ for (const md of markdowns) {
             <meta property="og:type" content="website" />
             <meta property="og:description" content="${shortAttr}" />
             <meta property="og:url" content="${domain}" />
-            <meta property="og:image" content="./${image}.png" />
+            <meta property="og:image" content="${domain}/${image}.png" />
             <style>
                 ${cssPath}
             </style>
